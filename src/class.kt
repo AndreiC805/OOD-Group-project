@@ -13,5 +13,4 @@ class Tiket {
             Destination("Weston Super Mare", 20.0, 35.0),
             Destination("Swansea", 35.0, 55.0)
         )
-
         private var insertedMoney: Double = 0.0
