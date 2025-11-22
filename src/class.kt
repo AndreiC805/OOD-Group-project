@@ -61,3 +61,51 @@ class Tiket {
                 else -> println("Invalid ticket type.")
             }
         }
+        private fun insertMoney() {
+            print("Enter amount to insert (£): ")
+            val amount = readLine()?.toDoubleOrNull()
+            if (amount == null || amount <= 0) {
+                println("Invalid amount.")
+                return
+            }
+            insertedMoney += amount
+            println("You have inserted £$insertedMoney in total.")
+        }
+
+        private fun buyTicket() {
+            print("Enter destination: ")
+            val destinationName = readLine()?.trim()?.capitalize()
+            val destination = destinations.find { it.name.equals(destinationName, ignoreCase = true) }
+            if (destination == null) {
+                println("Destination not found.")
+                return
+            }
+            print("Ticket type (single/return): ")
+            val type = readLine()?.trim()?.lowercase()
+
+            val price = when (type) {
+                "single" -> destination.singlePrice
+                "return" -> destination.returnPrice
+                else -> {
+                    println("Invalid ticket type.")
+                    return
+                }
+            }
+
+            if (insertedMoney < price) {
+                println("Not enough money! Please insert more.")
+                return
+            }
+
+            insertedMoney -= price
+            destination.totalTakings += price
+
+            println("\n***")
+            println("$originStation to ${destination.name}")
+            println("Price: £$price (${type!!.capitalize()})")
+            println("***")
+
+            println("Remaining balance: £$insertedMoney")
+        }
+    }
+}
